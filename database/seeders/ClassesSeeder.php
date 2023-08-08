@@ -28,6 +28,7 @@ class ClassesSeeder extends Seeder
                         new Sequence(
                             ['name' => 'Section A'],
                             ['name' => 'Section B'],
+                            ['name' => 'Section C'],
                         )
                     )
                     ->has(
