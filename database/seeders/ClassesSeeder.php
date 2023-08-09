@@ -18,12 +18,14 @@ class ClassesSeeder extends Seeder
      */
     public function run()
     {
+        // Cria 10 turmas fictícias usando a factory do modelo Classes.
         Classes::factory()
-            ->count(10)
-            ->sequence(fn ($sequence) => ['name' => 'Class ' . $sequence->index + 1])
+            ->count(10) // Cria 10 turmas
+            ->sequence(fn ($sequence) => ['name' => 'Class ' . $sequence->index + 1]) // Nomes sequenciais como "Class 1", "Class 2", ...
             ->has(
+                // Para cada turma, cria 2 seções fictícias usando a factory do modelo Section.
                 Section::factory()
-                    ->count(2)
+                    ->count(2) // Cria 2 seções por turma
                     ->state(
                         new Sequence(
                             ['name' => 'Section A'],
@@ -32,15 +34,17 @@ class ClassesSeeder extends Seeder
                         )
                     )
                     ->has(
+                        // Para cada seção, cria 5 estudantes fictícios usando a factory do modelo Student.
                         Student::factory()
-                            ->count(5)
+                            ->count(5) // Cria 5 estudantes por seção
                             ->state(
                                 function (array $attributes, Section $section) {
+                                    // Associa o ID da turma à seção dos alunos.
                                     return ['class_id' => $section->class_id];
                                 }
                             )
                     )
             )
-            ->create();
+            ->create(); // Finaliza a criação e insere os dados no banco de dados.
     }
-};
+}
