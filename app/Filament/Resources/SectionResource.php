@@ -6,10 +6,13 @@ use App\Filament\Resources\SectionResource\Pages;
 use App\Filament\Resources\SectionResource\RelationManagers;
 use App\Models\Section;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -23,7 +26,14 @@ class SectionResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('class')
+                    ->required()
+                    ->autofocus()
+                    ->unique()
+                    ->placeholder('Enter a class Section Name'),
+
+                Select::make('class_id')
+                    ->relationship('class', 'name')
             ]);
     }
 
@@ -31,7 +41,12 @@ class SectionResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('name')
+                    ->sortable() //classificavel
+                    ->searchable(),
+                TextColumn::make('class.name') //segunda coluna
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 //
