@@ -2,19 +2,28 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\StudentResource\Pages;
-use App\Filament\Resources\StudentResource\RelationManagers;
-use App\Models\Classes;
-use App\Models\Student;
 use Filament\Forms;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
-use Filament\Resources\Form;
-use Filament\Resources\Resource;
-use Filament\Resources\Table;
 use Filament\Tables;
+use App\Models\Classes;
+use App\Models\Section;
+use App\Models\Student;
+use Filament\Resources\Form;
+use Filament\Resources\Table;
+use App\Exports\StudentsExport;
+use Filament\Resources\Resource;
+use Filament\Tables\Filters\Filter;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Actions\BulkAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use App\Filament\Resources\StudentResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\StudentResource\RelationManagers;
+use Filament\Tables\Actions\Action;
 
 class StudentResource extends Resource
 {
@@ -39,7 +48,9 @@ class StudentResource extends Resource
                     ->unique(),
                 TextInput::make('address')
                     ->required(),
-            ]);
+                Select::make('class_id')
+                    ->relationship('class', 'name')
+                ]);
     }
 
     public static function table(Table $table): Table
