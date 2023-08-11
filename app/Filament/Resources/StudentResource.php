@@ -4,8 +4,10 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\StudentResource\Pages;
 use App\Filament\Resources\StudentResource\RelationManagers;
+use App\Models\Classes;
 use App\Models\Student;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
@@ -30,9 +32,13 @@ class StudentResource extends Resource
                     ->unique(),
                 TextInput::make('email')
                     ->required()
-                    ->autofocus()
-                    ->unique()
-
+                    ->unique(),
+                TextInput::make('phone_number')
+                    ->required()
+                    ->tel()
+                    ->unique(),
+                TextInput::make('address')
+                    ->required(),
             ]);
     }
 
