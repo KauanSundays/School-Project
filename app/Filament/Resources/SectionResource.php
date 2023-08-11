@@ -8,6 +8,7 @@ use App\Models\Section;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Pages\Actions\DeleteAction;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
@@ -53,6 +54,7 @@ class SectionResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                DeleteAction::make()
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
