@@ -36,13 +36,13 @@ class StudentResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                    ->required()
-                    ->autofocus()
-                    ->unique(),
+                    ->searchable()
+                    ->sortable(),
 
                 TextInput::make('email')
-                    ->required()
-                    ->unique(),
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
 
                 TextInput::make('phone_number')
                     ->required()
