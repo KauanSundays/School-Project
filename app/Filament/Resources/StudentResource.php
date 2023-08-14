@@ -45,12 +45,15 @@ class StudentResource extends Resource
                     ->toggleable(),
 
                 TextInput::make('phone_number')
-                    ->required()
-                    ->tel()
-                    ->unique(),
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
 
                 TextInput::make('address')
-                    ->required(),
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable()
+                    ->wrap(),
 
                 Select::make('class_id')
                     ->relationship('class', 'name')
