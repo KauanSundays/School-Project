@@ -39,18 +39,31 @@ class StudentResource extends Resource
                     ->required()
                     ->autofocus()
                     ->unique(),
+
                 TextInput::make('email')
                     ->required()
                     ->unique(),
+
                 TextInput::make('phone_number')
                     ->required()
                     ->tel()
                     ->unique(),
+
                 TextInput::make('address')
                     ->required(),
+
                 Select::make('class_id')
                     ->relationship('class', 'name')
                 ]);
+
+                Select::make('section_id')
+                    ->options(function (callable $get) (
+                        $classId = $get('class_id');
+
+                        if ($classId) {
+                            return Section::where('class_id', $classId)->pluck('name', 'id')->toArray();
+                        }
+                    ));
     }
 
     public static function table(Table $table): Table
