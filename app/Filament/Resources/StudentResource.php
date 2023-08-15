@@ -71,16 +71,41 @@ class StudentResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('name')
+                    ->sortable()
+                    ->searchable(),
+                TextColumn::make('email')
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(),
+                TextColumn::make('phone_number')
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(),
+                // TextColumn::make('address')
+                //     ->sortable()
+                //     ->searchable()
+                //     ->toggleable()
+                //     ->wrap(),
+
+                TextColumn::make('class.name')
+                    ->sortable()
+                    ->searchable(),
+
+                TextColumn::make('section.name')
+                    ->sortable()
+                    ->searchable()
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
+                
             ]);
     }
     
