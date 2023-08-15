@@ -20,10 +20,10 @@ use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use App\Filament\Resources\StudentResource\Pages;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\StudentResource\RelationManagers;
 use Filament\Tables\Actions\Action;
-use Illuminate\Database\Eloquent\SoftDeletingScope; // Add this line
-
-// Add the correct namespace for SoftDeletingScope
 
 class StudentResource extends Resource
 {
@@ -43,7 +43,6 @@ class StudentResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->toggleable(),
-                    
 
                 TextInput::make('phone_number')
                     ->searchable()
@@ -68,7 +67,6 @@ class StudentResource extends Resource
                     }),
             ]);
     }
-
     public static function table(Table $table): Table
     {
         return $table
@@ -100,5 +98,5 @@ class StudentResource extends Resource
             'create' => Pages\CreateStudent::route('/create'),
             'edit' => Pages\EditStudent::route('/{record}/edit'),
         ];
-    }   
+    }    
 }
