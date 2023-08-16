@@ -15,7 +15,7 @@ class EditStudent extends EditRecord
     {
         return $this->getResource()::getUrl('index');
     }
-    
+
     protected function getActions(): array
     {
         return [
