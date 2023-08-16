@@ -105,7 +105,8 @@ class StudentResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-                
+                BulkAction::make('delete')
+                ->action(fn (Collection $records) => $records->each->delete())
             ]);
     }
     
