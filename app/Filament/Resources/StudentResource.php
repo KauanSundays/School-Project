@@ -105,10 +105,10 @@ class StudentResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-                BulkAction::make('delete')
+                BulkAction::make('export')
                 ->label('Export Selected')
                 ->icon('heroicon-o-document-download')
-                    ->action(fn (Collection $records) => $records->each->delete())
+                    ->action(fn (Collection $records) => (new StudentsExport($records))->download('students.xlsx'))
             ]);
     }
     

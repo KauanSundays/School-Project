@@ -13,7 +13,7 @@ class StudentsExport implements FromQuery
     use Exportable;
     public $students;
 
-    public function __constructor(Collection $students)
+    public function __construct(Collection $students)
     {
         $this->students = $students;
     }
