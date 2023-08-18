@@ -3,10 +3,11 @@
 namespace App\Exports;
 
 use App\Models\Student;
-use Filament\Notifications\Collection;
+use Illuminate\Database\Eloquent\Collection;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromQuery;
+use Ramsey\Collection\Collection as CollectionCollection;
 
 class StudentsExport implements FromQuery
 {
