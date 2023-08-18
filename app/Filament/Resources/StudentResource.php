@@ -21,6 +21,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use App\Filament\Resources\StudentResource\Pages;
+
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\StudentResource\RelationManagers;
 use Filament\Tables\Actions\Action;
@@ -99,8 +100,8 @@ class StudentResource extends Resource
             ->filters([
                     Filter::make('created_at')
                         ->form([
-                            Forms\Components\DatePicker::make('created_from'),
-                            Forms\Components\DatePicker::make('created_until'),
+                            SelectFilter::make('class_id')->relationship('class', 'name'),
+                            //Forms\Components\DatePicker::make('created_until'),
                         ])
                         ->query(function (Builder $query, array $data): Builder {
                             return $query
