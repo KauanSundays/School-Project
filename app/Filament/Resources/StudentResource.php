@@ -108,12 +108,12 @@ class StudentResource extends Resource
             ->query(function (Builder $query, array $data): Builder {
                 return $query
                     ->when(
-                        $data['created_from'],
-                        fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                        $data['class_id'],
+                        fn (Builder $query, $record): Builder => $query->where('class_id', $record),
                     )
                     ->when(
-                        $data['created_until'],
-                        fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                        $data['section_id'],
+                        fn (Builder $query, $record): Builder => $query->where('section_id', $record),
                     );
             })
             ->actions([
