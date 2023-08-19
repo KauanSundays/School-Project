@@ -25,104 +25,103 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\StudentResource\RelationManagers;
 use Filament\Tables\Actions\Action;
 
-class StudentResource extends Resource
+class StudentResource extends Resource // Declara uma classe 'StudentResource' que herda da classe base 'Resource'
 {
-    protected static ?string $model = Student::class;
+    protected static ?string $model = Student::class; // Define o modelo associado ao recurso como 'Student'
 
-    protected static ?string $navigationGroup = 'Academic Management';
+    protected static ?string $navigationGroup = 'Academic Management'; // Define o grupo de navegação como 'Academic Management'
 
-    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
+    protected static ?string $navigationIcon = 'heroicon-o-academic-cap'; // Define o ícone de navegação como 'heroicon-o-academic-cap'
 
-    public static function form(Form $form): Form
+    public static function form(Form $form): Form // Define a estrutura do formulário para criação/edição de estudantes
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->required()
-                    ->autofocus()
-                    ->unique(),
-                TextInput::make('email')
-                    ->required()
-                    ->unique(),
-                TextInput::make('phone_number')
-                    ->required()
-                    ->tel()
-                    ->unique(),
-                TextInput::make('address')
-                    ->required(),
+                TextInput::make('name') // Campo de entrada de texto para o nome do estudante
+                    ->required() // Requerido
+                    ->autofocus() // Foca automaticamente
+                    ->unique(), // Deve ser único
 
-                Select::make('class_id')
-                    ->relationship('class', 'name')
-                    ->reactive(),
+                TextInput::make('email') // Campo de entrada de texto para o e-mail do estudante
+                    ->required() // Requerido
+                    ->unique(), // Deve ser único
 
-                Select::make('section_id')
-                    ->label('Select Section')
-                    ->options(function (callable $get) {
-                        $classId = $get('class_id');
+                TextInput::make('phone_number') // Campo de entrada de texto para o número de telefone do estudante
+                    ->required() // Requerido
+                    ->tel() // Formato de telefone
+                    ->unique(), // Deve ser único
 
-                        if ($classId) {
+                TextInput::make('address') // Campo de entrada de texto para o endereço do estudante
+                    ->required(), // Requerido
+
+                Select::make('class_id') // Campo de seleção para a classe do estudante
+                    ->relationship('class', 'name') // Relação com o modelo 'class' usando o campo 'name'
+                    ->reactive(), // Atualização reativa dos componentes dependentes
+
+                Select::make('section_id') // Campo de seleção para a seção do estudante
+                    ->label('Select Section') // Rótulo do campo
+                    ->options(function (callable $get) { // Função para definir opções dinamicamente
+                        $classId = $get('class_id'); // Obtém o valor do campo 'class_id'
+
+                        if ($classId) { // Se a classe estiver selecionada
                             return Section::where('class_id', $classId)->pluck('name', 'id')->toArray();
+                            // Obtém as seções associadas a essa classe
                         }
                     })
-
             ]);
     }
 
-    public static function table(Table $table): Table
+    public static function table(Table $table): Table // Define a estrutura da tabela para listar estudantes
     {
         return $table
             ->columns([
-                TextColumn::make('name')
-                    ->sortable()
-                    ->searchable(),
-                TextColumn::make('email')
-                    ->sortable()
-                    ->searchable()
-                    ->toggleable(),
-                TextColumn::make('phone_number')
-                    ->sortable()
-                    ->searchable()
-                    ->toggleable(),
-                // TextColumn::make('address')
-                //     ->sortable()
-                //     ->searchable()
-                //     ->toggleable()
-                //     ->wrap(),
+                TextColumn::make('name') // Coluna de texto para o nome do estudante
+                    ->sortable() // Pode ser ordenada
+                    ->searchable(), // Pode ser pesquisada
 
-                TextColumn::make('class.name')
-                    ->sortable()
-                    ->searchable(),
+                TextColumn::make('email') // Coluna de texto para o e-mail do estudante
+                    ->sortable() // Pode ser ordenada
+                    ->searchable() // Pode ser pesquisada
+                    ->toggleable(), // Pode ser alternada
 
-                TextColumn::make('section.name')
-                    ->sortable()
-                    ->searchable()
+                TextColumn::make('phone_number') // Coluna de texto para o número de telefone do estudante
+                    ->sortable() // Pode ser ordenada
+                    ->searchable() // Pode ser pesquisada
+                    ->toggleable(), // Pode ser alternada
+
+                TextColumn::make('class.name') // Coluna de texto para o nome da classe do estudante
+                    ->sortable() // Pode ser ordenada
+                    ->searchable(), // Pode ser pesquisada
+
+                TextColumn::make('section.name') // Coluna de texto para o nome da seção do estudante
+                    ->sortable() // Pode ser ordenada
+                    ->searchable() // Pode ser pesquisada
             ])
             ->filters([
-                Filter::make('class-section-filter')
+                Filter::make('class-section-filter') // Define um filtro chamado 'class-section-filter'
                     ->form([
-                        Select::make('class_id')
-                            ->label('Filter By Class')
-                            ->placeholder('Select a Class')
-                            ->options(
-                                Classes::pluck('name', 'id')->toArray()
-                            )
+                        Select::make('class_id') // Campo de seleção para filtrar por classe
+                            ->label('Filter By Class') // Rótulo do campo
+                            ->placeholder('Select a Class') // Texto de placeholder
+                            ->options(Classes::pluck('name', 'id')->toArray()) // Obtém opções de classes
                             ->afterStateUpdated(
                                 fn (callable $set) => $set('section_id', null)
                             ),
-                        Select::make('section_id')
-                            ->label('Filter By Section')
-                            ->placeholder('Select a Section')
+                        Select::make('section_id') // Campo de seleção para filtrar por seção
+                            ->label('Filter By Section') // Rótulo do campo
+                            ->placeholder('Select a Section') // Texto de placeholder
                             ->options(
                                 function (callable $get) {
-                                    $classId = $get('class_id');
+                                    $classId = $get('class_id'); // Obtém o valor do campo 'class_id'
 
-                                    if ($classId) {
+                                    if ($classId) { // Se a classe estiver selecionada
                                         return Section::where('class_id', $classId)->pluck('name', 'id')->toArray();
+                                        // Obtém as seções associadas a essa classe
                                     }
                                 }
                             ),
                     ])
-                    ->query(function (Builder $query, array $data): Builder {
+                    ->query(function (Builder $query, array $data): Builder { // Função para modificar a consulta da tabela com base nos filtros
                         return $query
                             ->when(
                                 $data['class_id'],
@@ -133,43 +132,41 @@ class StudentResource extends Resource
                                 fn (Builder $query, $record): Builder => $query->where('section_id', $record),
                             );
                     })
-
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                DeleteAction::make(),
-                Action::make('Download Pdf')
-                    ->icon('heroicon-o-document-download')
-                    ->openUrlInNewTab(),
-
+                Tables\Actions\EditAction::make(), // Adiciona uma ação de edição
+                DeleteAction::make(), // Adiciona uma ação de exclusão
+                Action::make('Download Pdf') // Adiciona uma ação personalizada para download de PDF
+                    ->icon('heroicon-o-document-download') // Define o ícone da ação
+                    ->openUrlInNewTab(), // Abre a URL em uma nova aba
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
-                BulkAction::make('export')
-                    ->label('Export Selected')
-                    ->icon('heroicon-o-document-download')
-                    ->action(fn (Collection $records) => (new StudentsExport($records))->download('students.xlsx'))
+                Tables\Actions\DeleteBulkAction::make(), // Adiciona uma ação de exclusão em massa
+                BulkAction::make('export') // Adiciona uma ação em massa personalizada para exportar
+                    ->label('Export Selected') // Rótulo da ação
+                    ->icon('heroicon-o-document-download') // Define o ícone da ação
+                    ->action(fn (Collection $records) => (new StudentsExport($records))->download('students.xlsx')) // Ação a ser executada
             ]);
     }
 
-    public static function getRelations(): array
+    public static function getRelations(): array // Define as relações associadas ao recurso
     {
         return [
             //
         ];
     }
 
-    public static function getPages(): array
+    public static function getPages(): array // Define as páginas associadas ao recurso
     {
         return [
-            'index' => Pages\ListStudents::route('/'),
-            'create' => Pages\CreateStudent::route('/create'),
-            'edit' => Pages\EditStudent::route('/{record}/edit'),
+            'index' => Pages\ListStudents::route('/'), // Página de listagem de estudantes
+            'create' => Pages\CreateStudent::route('/create'), // Página de criação de estudantes
+            'edit' => Pages\EditStudent::route('/{record}/edit'), // Página de edição de estudantes
         ];
     }
 
-    protected static function getNavigationBadge(): ?string
+    protected static function getNavigationBadge(): ?string // Define o distintivo de navegação
     {
-        return self::$model::count();
+        return self::$model::count(); // Retorna a contagem de estudantes como distintivo
     }
 }
