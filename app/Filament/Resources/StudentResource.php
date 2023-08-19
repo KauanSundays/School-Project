@@ -98,23 +98,24 @@ class StudentResource extends Resource
                     ->searchable()
             ])
             ->filters([
-                    Filter::make('created_at')
-                        ->form([
-                            SelectFilter::make('class_id')->relationship('class', 'name'),
-                            //Forms\Components\DatePicker::make('created_until'),
-                        ])
-                        ->query(function (Builder $query, array $data): Builder {
-                            return $query
-                                ->when(
-                                    $data['created_from'],
-                                    fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
-                                )
-                                ->when(
-                                    $data['created_until'],
-                                    fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
-                                );
-                        })
+                    Select::make('class_id')
+
+                    ->options(
+                        Classes::pluck('name', 'id')->toArray()
+                    ),
+                Forms\components\DatePicker::make('created_until'),
             ])
+            ->query(function (Builder $query, array $data): Builder {
+                return $query
+                    ->when(
+                        $data['created_from'],
+                        fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                    )
+                    ->when(
+                        $data['created_until'],
+                        fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                    );
+            })
             ->actions([
                 Tables\Actions\EditAction::make(),
                 DeleteAction::make(),
