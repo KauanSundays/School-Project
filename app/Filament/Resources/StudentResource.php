@@ -143,7 +143,7 @@ class StudentResource extends Resource // Declara uma classe 'StudentResource' q
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(), // Adiciona uma ação de exclusão em massa
                 BulkAction::make('export') // Adiciona uma ação em massa personalizada para exportar
-                    ->label('Export Selected') // Rótulo da ação
+                    ->label('Exportar Selecionados') // Rótulo da ação
                     ->icon('heroicon-o-document-download') // Define o ícone da ação
                     ->action(fn (Collection $records) => (new StudentsExport($records))->download('students.xlsx')) // Ação a ser executada
             ]);
