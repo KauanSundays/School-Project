@@ -42,10 +42,11 @@ class ClassesResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
-                ->sortable(), //classificavel
-                TagsColumn::make('section.name'),
-                TextColumn::make('students_count')->counts('students')
-
+                    ->sortable(),
+                TagsColumn::make('sections.name'),
+                TextColumn::make('students_count')
+                    ->counts('students')
+                    ->label('Students Count'),
             ])
             ->filters([
                 //
