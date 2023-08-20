@@ -13,8 +13,8 @@ class Classes extends Model
         'name',
     ];
 
-    public function sections()
+    public function students()
     {
-        return $this->hasMany(Section::class, 'class_id');
+        return $this->hasMany(Student::class);
     }
 }
