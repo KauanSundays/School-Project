@@ -49,6 +49,10 @@ class SectionResource extends Resource
             TextColumn::make('class.name') //segunda coluna
                 ->sortable()
                 ->searchable(),
+            TextColumn::make('students_count') //segunda coluna
+                ->counts('students')
+                ->label('Students Count'),
+
         ])
         ->filters([
             //
