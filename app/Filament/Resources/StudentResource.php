@@ -138,7 +138,7 @@ class StudentResource extends Resource // Declara uma classe 'StudentResource' q
                 DeleteAction::make(), // Adiciona uma ação de exclusão
                 Action::make('Download Pdf') // Adiciona uma ação personalizada para download de PDF
                     ->icon('heroicon-o-document-download') // Define o ícone da ação
-                    ->link(fn (Student $record) => route('student.pdf.download', $record))
+                    ->url(fn (Student $record) => route('student.pdf.download', $record))
                     ->openUrlInNewTab(), // Abre a URL em uma nova aba
             ])
             ->bulkActions([
