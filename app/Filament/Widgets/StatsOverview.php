@@ -15,9 +15,9 @@ class StatsOverview extends BaseWidget
     protected function getCards(): array
     {
         return [
-            Card::make('Total Students', Student::count()),
-            Card::make('Total Classes', Classes::count()),
-            Card::make('Total Sections', Section::count()),
+            Card::make('Total de Alunos', Student::count()),
+            Card::make('Total de Salas', Classes::count()),
+            Card::make('Total de Seções', Section::count()),
         ];
     }
 }

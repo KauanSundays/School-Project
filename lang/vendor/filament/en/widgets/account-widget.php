@@ -10,6 +10,6 @@ return [
 
     ],
 
-    'welcome' => 'Welcome, :user',
+    'welcome' => 'Bem-Vindo :user',
 
 ];

@@ -51,7 +51,7 @@ class SectionResource extends Resource
                 ->searchable(),
             TextColumn::make('students_count') //segunda coluna
                 ->counts('students')
-                ->label('Students Count'),
+                ->label('Contagem de Alunos'),
 
         ])
         ->filters([

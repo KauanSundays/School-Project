@@ -46,7 +46,7 @@ class ClassesResource extends Resource
                 TagsColumn::make('sections.name'),
                 TextColumn::make('students_count')
                     ->counts('students')
-                    ->label('Students Count'),
+                    ->label('Contagem de Alunos'),
             ])
             ->filters([
                 //
